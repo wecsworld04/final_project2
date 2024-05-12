@@ -110,7 +110,7 @@ class Logic(QMainWindow, Ui_bank_account):
                 self.error_label.setText("Account not found.")
                 return
 
-            new_balance = float(c_balance)
+            new_balance = c_balance.isdigit()
             if self.deposit_button.isChecked():
                 new_balance += amount
                 self.error_label.setText(f"Deposited ${amount:.2f} into {account_type} account.")
@@ -136,10 +136,6 @@ class Logic(QMainWindow, Ui_bank_account):
                         line[3] = str(new_balance)
                     lines.append(line)
 
-            with open('bank_info.csv', 'w', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerows(lines)
-
             self.balance_label.setText(f"Current account balance: ${new_balance:.2f}")
             self.balance_label.adjustSize()
 
@@ -158,6 +154,7 @@ class Logic(QMainWindow, Ui_bank_account):
         self.checking_acc_button.setChecked(False)
         self.deposit_button.setChecked(False)
         self.withdraw_button.setChecked(False)
+        self.login_count = False
 
     def clear(self):
         self.error_label.clear()
